@@ -36,21 +36,19 @@ async function mostrarNomes() {
 
 async function adicionarNome() {
   const nomeInput = document.querySelector("#nomeInput");
-  const nome = nomeInput.value;
+  const nome = nomeInput.value.trim().toUpperCase();
 
   if (!nome) {
     alert("Digite um nome");
     return;
   }
 
-  const nomeTrim = nome.trim();
-
   const resposta = await fetch(`${URL}/participantes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ nomeTrim }),
+    body: JSON.stringify({ nome }),
   });
 
   if (!resposta.ok) {
@@ -58,8 +56,7 @@ async function adicionarNome() {
     return;
   }
 
-  return resposta;
-
+  nomeInput.value = "";
   mostrarNomes();
 }
 
@@ -85,8 +82,55 @@ async function sortear() {
   });
   const nome = await resultado.json();
 
+  if (!resultado.ok) {
+    alert("Deve haver pelo menos 2 pessoas para conseguir sortear!");
+    return;
+  }
+
   const nomeGanhador = document.querySelector("#resultado");
   nomeGanhador.textContent = nome;
 }
 
 mostrarNomes();
+
+async function importarPlanilha() {
+  const input = document.querySelector("#inputArquivo");
+  const arquivo = input.files[0];
+
+  if (!arquivo) {
+    alert("Nenhum arquivo recebido");
+    return;
+  }
+
+  const buffer = await arquivo.arrayBuffer()
+  const workbook = XLSX.read(buffer, {type: "array"})
+
+  const primeiraAba = workbook.Sheets[workbook.SheetNames[0]]
+
+  const linhas = XLSX.utils.sheet_to_json(primeiraAba)
+
+  const nomes = linhas.map(linha => linha["nomes"]?.toString().trim().toUpperCase()).filter(nome => nome && nome !== "")
+
+  if(nomes.length === 0) {
+    alert(`nenhum nome encotrado, verifique se a coluna se chama "nomes"`)
+    return 
+  }
+
+  for (const nome of nomes) {
+    const resposta = await fetch(`${URL}/participantes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ nome }),
+    });
+
+    if (!resposta.ok) {
+      const erro = await resposta.json();
+      console.log(`${nome} não adicionado: ${erro.message}`);
+    }
+  }
+
+  await mostrarNomes();
+  input.value = "";
+}

@@ -25,6 +25,14 @@
           </button>
         </div>
 
+        <div>
+            <p class="lista-label">importar de uma planilha (nomeie a coluna como "nomes")</p>
+            <div class="container-arquivo">
+                <input type="file" id="inputArquivo" class="input-arquivo" accept=".csv,.xlsx"/>
+                <button onclick="importarPlanilha()" class="btn-add">Importar</button>
+            </div>
+        </div>
+
         <p class="lista-label">Participantes:</p>
         <ul id="lista"></ul>
 
@@ -35,7 +43,7 @@
     </main>
   </body>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="scripts.js"></script>
 </html>
-
 

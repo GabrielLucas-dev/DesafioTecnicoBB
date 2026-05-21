@@ -42,8 +42,12 @@ function gerarNome(): string{
 
 app.post('/sorteado', (req, res) => {
     try{
-        const sorteado: string = gerarNome();
-        res.status(201).json(sorteado);
+        if(participantes.length >= 2){
+            const sorteado: string = gerarNome();
+            res.status(201).json(sorteado);
+        } else{
+            res.status(400).json({message: "Deve haver mais de 1 partipante para sortear"})
+        }
     } catch(error: any) {
         res.status(400).json({message: error.message})
     }
