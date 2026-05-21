@@ -202,3 +202,8 @@ h2#resultado:not(:empty) {
   text-align: center;
   animation: popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
 }
+
+.disabled{
+    background-color: #ff440083;
+    pointer-events: none;
+}

@@ -5,6 +5,13 @@ async function mostrarNomes() {
 
   const nomes = await resposta.json();
 
+  const sortearBtn = document.querySelector("#sortear-btn");
+  if (nomes.length === 0) {
+    sortearBtn.classList.add("disabled");
+  } else {
+    sortearBtn.classList.remove("disabled");
+  }
+
   const listaNomes = document.querySelector("#lista");
   listaNomes.innerHTML = "";
 
@@ -36,18 +43,24 @@ async function adicionarNome() {
     return;
   }
 
-  try{ 
-    await fetch(`${URL}/participantes`, {
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify({nome}) }) 
-} catch(error) {
-     if(error.status === 400) {console.log('teste')} 
-    }
+  const nomeTrim = nome.trim();
 
-    mostrarNomes();
+  const resposta = await fetch(`${URL}/participantes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ nomeTrim }),
+  });
+
+  if (!resposta.ok) {
+    alert("Nome já está no sorteio");
+    return;
+  }
+
+  return resposta;
+
+  mostrarNomes();
 }
 
 async function removerNome(nome) {
@@ -63,7 +76,7 @@ async function removerNome(nome) {
     console.log(error);
   }
 
-  await mostrarNomes();
+  mostrarNomes();
 }
 
 async function sortear() {

@@ -24,7 +24,7 @@ app.delete("/participantes", (req: Request, res: Response) => {
     const {nome} = req.body
     if(!nome) return res.status(404).json({message: "Nome faltando"})
 
-    const indexNomeRemovido = participantes.indexOf(nome)
+    const indexNomeRemovido: number  = participantes.indexOf(nome)
 
     if(indexNomeRemovido === -1) return res.status(404).send({message: `${nome} não esta participando do sorteio`})
 
@@ -32,8 +32,8 @@ app.delete("/participantes", (req: Request, res: Response) => {
     return res.status(200).send({message: `"${nome}" removido(a)`})
 })
 
-function gerarNome(): string {
-    if(participantes.length === 0) throw new Error("Não há usuarios na lista, insira ao menos 1 para sortear");
+function gerarNome(): string{
+    if(participantes.length === 0) throw new Error("Não há usuarios na lista, insira pelo menos 1 para sortear");
     
     let randomNome: number = Math.floor(Math.random() * participantes.length);
     const ganhador = participantes[randomNome];

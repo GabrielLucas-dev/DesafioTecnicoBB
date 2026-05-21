@@ -102,3 +102,11 @@ Body:
 ```http
 POST /sorteado
 ```
+
+---
+
+## Deploy
+
+Deploy feito diretamente pelo github, via github pages, confira abaixo 
+
+Link: 
