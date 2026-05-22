@@ -4,7 +4,7 @@ Aplicação web simples para cadastro e sorteio aleatório de participantes
 
 Esse projeto foi desenvolvido como desafio técnico para vaga de estágio do BB
 
-![preview](./assets/previewProjeto.png)
+![preview](./assets/previewProjeto1.1.png)
 
 ---
 
@@ -102,11 +102,3 @@ Body:
 ```http
 POST /sorteado
 ```
-
----
-
-## Deploy
-
-Deploy feito diretamente pelo github, via github pages, confira abaixo 
-
-Link: 

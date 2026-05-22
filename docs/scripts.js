@@ -60,6 +60,12 @@ async function adicionarNome() {
   mostrarNomes();
 }
 
+function adicionarNomeEnter(e) {
+  if(e.key === 'Enter'){
+    adicionarNome()
+  }
+}
+
 async function removerNome(nome) {
   try {
     await fetch(`${URL}/participantes`, {
